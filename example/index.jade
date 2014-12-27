@@ -2,14 +2,98 @@ doctype html
 html
   head
     title Typeout Demo
+    link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css')
 
-    style
+    style.
+      html, body {
+        font-family: 'Source Sans Pro';
+        font-size: 25px;
+        line-height: 1.2em;
+        margin: 0; padding: 0;
+        height: 100%;
+      }
+
+      #demo {
+        position: relative;
+        height: auto;
+        top: 40%;
+        text-align: center;
+        letter-spacing: -1px;
+        font-weight: 300;
+        text-transform: lowercase;
+      }
+
+      .typeout {
+        color: #65d165;
+      }
+
+      .typeout:after {
+        -webkit-animation: 0.7s blink step-end infinite;
+        -moz-animation: 0.7s blink step-end infinite;
+        -ms-animation: 0.7s blink step-end infinite;
+        -o-animation: 0.7s blink step-end infinite;
+        animation: 0.7s blink step-end infinite;
+        content: '|';
+        padding-left: 2px;
+      }
+      .typeout.typeout-complete:after {
+        content: none;
+      }
+
+      @keyframes "blink" {
+        from, to {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @-moz-keyframes blink {
+        from, to {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+         }
+      }
+
+      @-webkit-keyframes "blink" {
+        from, to {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @-ms-keyframes "blink" {
+        from,to {
+        opacity: 0;
+      }
+        50% {
+          opacity: 1;
+       }
+
+      }
+
+      @-o-keyframes "blink" {
+        from,to {
+        opacity: 0;
+      }
+        50% {
+          opacity: 1;
+       }
+      }
+
   body
-    h1#demo Isn't typeout
-      span.typeout
+    <h1 id="demo">San Francisco is <span class="typeout"></span></h1>
 
     script(src="../src/typeout.js")
     script.
-      typeout('.typeout', ['Connor', 'David', 'Peaky'], {
-        numLoops: 3,
+      typeout('.typeout', ['wonderful', 'eye-opening', 'amazing', 'an experience'], {
+        numLoops: 1,
+        callback: function(el) {
+          el.innerHTML += ".";
+        }
       });

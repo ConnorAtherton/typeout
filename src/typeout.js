@@ -8,8 +8,6 @@
  * Github:  http://github.com/ConnorAtherton/typeout
  */
 
-// TODO Make the typing and deleting humanlike (typewriter)
-// TODO Write documentation
 // TODO Add to website with styles
 // TODO Take gif of it working and add it to readme
 
@@ -31,7 +29,9 @@
     interval: 3000,
     completeClass: 'typeout-complete',
     callback : function noop() {},
-    numLoops: Infinity
+    numLoops: Infinity,
+    max: 100,
+    min: 30
   };
 
   var Typeout = function(selector, words, options) {
@@ -40,57 +40,66 @@
     this.options = merge(defaults, (options || {}));
     this.el = document.querySelector(selector);
     this.options.words = words;
+    this.shouldStartType = true;
 
     this.initialSetup();
   };
 
   var proto = Typeout.prototype;
 
-  // adds space to enclosing tag if not already present.
   proto.initialSetup = function() {
-    // read innerHTML of el and shift it onto the list
-    // if it is non-empty
     var html = this.el.innerHTML.trim();
-    if (html !== "") this.options.words.unshift(html);
+    if (html !== "") {
+      this.shouldStartType = false;
+      this.options.words.unshift(html);
+    }
 
     // start the spin loop
     this.startLoop();
   };
 
-  // start the word loop
   proto.startLoop = function() {
     var stop = false;
     var loops = 0;
     var currentElIndex = 0;
     var listLength = this.options.words.length;
+    var stopping = false;
 
-    // set initial word on first loop
-    this.type(this.options.words[currentElIndex]);
+    if (this.shouldStartType) {
+      // set initial word on first loop
+      this.type(this.options.words[currentElIndex]);
+    }
 
     var interval = setInterval(function() {
+      // Update all state..
+      currentElIndex += 1;
+      if (currentElIndex === listLength) currentElIndex = 0;
+
+      var tryStop = function () {
+        if (stopping) {
+          addClass(this.el, this.options.completeClass);
+          this.options.callback.call(this, this.el);
+        }
+      };
+
+      this.delete(function() {
+        this.type(this.options.words[currentElIndex], tryStop);
+      });
+
       // Should we stop?
       if (currentElIndex === listLength - 1) {
         loops += 1;
 
         if (loops === this.options.numLoops) {
-          clearInterval(interval);
-          addClass(this.el, this.options.completeClass);
-          this.options.callback.call(this);
+          stopping = true;
+          return clearInterval(interval);
         }
       }
-
-      this.delete(function() {
-        // Update all state..
-        currentElIndex += 1;
-        if (currentElIndex === listLength) currentElIndex = 0;
-
-        this.type(this.options.words[currentElIndex]);
-      });
 
     }.bind(this), this.options.interval);
   };
 
-  proto.type = function(word) {
+  proto.type = function(word, fn) {
     var progress = 0;
     var wordLength = word.length;
 
@@ -101,6 +110,7 @@
         progress++;
       } else {
         window.clearInterval(interval);
+        fn && fn.call(this);
       }
 
     }.bind(this), this.getSpeed());
@@ -121,14 +131,11 @@
   };
 
   proto.getSpeed = function() {
-    return 30;
-  };
+    var max = this.options.max;
+    var min = this.options.min;
 
-  /*
-   *  @private
-   *
-   *  Helper functions
-   */
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
 
   /*
    *  Merges two objects together.
