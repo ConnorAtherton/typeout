@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title Typeout Demo
+
+    style
+  body
+    h1#demo Isn't typeout
+      span.typeout
+
+    script(src="../src/typeout.js")
+    script.
+      typeout('.typeout', ['Connor', 'David', 'Peaky'], {
+        numLoops: 3,
+      });

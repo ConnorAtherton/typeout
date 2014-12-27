@@ -1,0 +1,33 @@
+{
+  "name": "typeout",
+  "version": "0.0.1",
+  "description": "Type and retype text in the browser.",
+  "main": "src/typeout.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ConnorAtherton/typeout.git"
+  },
+  "author": "Connor Atherton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ConnorAtherton/typeout/issues"
+  },
+  "homepage": "https://github.com/ConnorAtherton/typeout",
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-jshint": "^1.9.0",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-uglify": "^1.0.2",
+    "jshint-stylish": "^1.0.0"
+  },
+  "dependencies": {
+    "gulp-jade": "^0.10.0",
+    "gulp-rename": "^1.2.0"
+  }
+}
