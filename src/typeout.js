@@ -8,7 +8,7 @@
  * Github:  http://github.com/ConnorAtherton/typeout
  */
 
-'use strict';
+"use strict";
 // TODO Take gif of it working and add it to readme
 
 var aq = require('aqueue');
@@ -21,8 +21,8 @@ var defaults = {
   completeClass: 'typeout-complete',
   callback : function noop() {},
   numLoops: Infinity,
-  max: 100,
-  min: 30
+  max: 110,
+  min: 40
 };
 
 var typeout = function(selector, words, options) {
@@ -44,7 +44,7 @@ var typeout = function(selector, words, options) {
 
     // start the spin loop
     startLoop();
-  };
+  }
 
   function startLoop() {
     var stop = false;
@@ -59,14 +59,14 @@ var typeout = function(selector, words, options) {
       if (currentElIndex === listLength - 1) {
         aqueue(callback, null);
       } else {
-        aqueue(pause, options.interval)(deleteWord, null);
+        aqueue(pause, options.interval)(deleteWord);
       }
 
       currentElIndex++;
 
       if (currentElIndex === listLength) currentElIndex = 0;
     });
-  };
+  }
 
   function type(word, next) {
     var progress = 0;
@@ -83,12 +83,12 @@ var typeout = function(selector, words, options) {
       }
 
     }, getSpeed());
-  };
+  }
 
   /*
    * BUG - aq won't invoke the function if no argument is passed which is kinda weird
    */
-  function deleteWord(_, next) {
+  function deleteWord(next) {
     var interval = setInterval(function() {
       var current = el.innerHTML;
       var length  = current.length;
@@ -100,20 +100,20 @@ var typeout = function(selector, words, options) {
 
       el.innerHTML = current.substring(0, length - 1);
     }, getSpeed());
-  };
+  }
 
   function getSpeed() {
     var max = options.max;
     var min = options.min;
 
     return Math.floor(Math.random() * (max - min + 1) + min);
-  };
+  }
 
   function pause(timeout, next) {
     setTimeout(function() {
-      next()
+      next();
     }, timeout);
-  };
+  }
 
   function callback() {
     addClass(el, options.completeClass);

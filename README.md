@@ -32,7 +32,6 @@ will be added to the world list you pass in.
 ```js
 // basic usage with just one loop
 typeout('.typeout', ['wonderful', 'eye-opening', 'an experience'], {
-  numLoops: 1,
   callback: function(el) {
     el.innerHTML += ".";
   }
@@ -48,9 +47,8 @@ var defaults = {
   interval: 3000,
   completeClass: 'typeout-complete',
   callback : function noop() {},
-  numLoops: Infinity,
-  max: 100, // upper limit for typing speed
-  min: 30   // lower limit for typing speed
+  max: 110, // upper limit for typing speed
+  min: 40   // lower limit for typing speed
 };
 ```
 
