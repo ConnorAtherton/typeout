@@ -40,6 +40,7 @@ var typeout = function(selector, words, options) {
     if (html !== "") {
       shouldStartType = false;
       options.words.unshift(html);
+      el.innerHTML = '';
     }
 
     // start the spin loop
