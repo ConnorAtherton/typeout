@@ -89,11 +89,11 @@ html
   body
     <h1 id="demo">San Francisco is <span class="typeout"></span></h1>
 
-    script(src="../src/typeout.js")
+    script(src="../typeout.min.js")
     script.
       typeout('.typeout', ['wonderful', 'eye-opening', 'amazing', 'an experience'], {
-        numLoops: 1,
         callback: function(el) {
+          console.log('calling the callback baby');
           el.innerHTML += ".";
         }
       });

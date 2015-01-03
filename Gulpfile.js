@@ -1,34 +1,39 @@
 var gulp = require("gulp");
 var plugins = require("gulp-load-plugins")();
 var stylish = require('jshint-stylish');
+var browserify = require('browserify');
+var transform = require('vinyl-transform');
 
-var jsFileGlob = 'src/**/*.js';
+var jsFileGlob = 'src/typeout.js';
 var jadeFileGlob = 'example/*.jade';
 
 gulp.task('js:lint', function() {
-  return gulp
-    .src(jsFileGlob)
+  return gulp.src(jsFileGlob)
     .pipe(plugins.jshint())
     .pipe(plugins.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('js:build', function() {
-  return gulp
-    .src(jsFileGlob)
+  var browserified = transform(function(filename) {
+    var b = browserify(filename);
+    return b.bundle();
+  });
+
+  return gulp.src(jsFileGlob)
+    .pipe(browserified)
     .pipe(plugins.uglify())
     .pipe(plugins.rename({suffix: '.min'}))
     .pipe(gulp.dest('./'));
 });
 
 gulp.task('jade:build', function() {
-  return gulp
-    .src(jadeFileGlob)
+  return gulp.src(jadeFileGlob)
     .pipe(plugins.jade())
     .pipe(gulp.dest('./example/'));
 });
 
 gulp.task('watch', function() {
-  gulp.watch(jsFileGlob, ['js:lint']);
+  gulp.watch(jsFileGlob, ['js:lint', 'js:build']);
   gulp.watch(jadeFileGlob, ['jade:build']);
 });
 
