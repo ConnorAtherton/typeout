@@ -56,11 +56,10 @@ var typeout = function(selector, words, options) {
 
     options.words.forEach(function(el, i) {
       aqueue(type, options.words[currentElIndex]);
-      console.log(options.words[currentElIndex], currentElIndex);
 
       if (currentElIndex === listLength - 1) {
         numLoops++;
-        console.log(options.numLoops, numLoops);
+
         if (numLoops !== Infinity && numLoops === options.numLoops) {
           return aqueue(callback, null);
         }
