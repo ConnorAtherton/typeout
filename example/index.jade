@@ -92,6 +92,7 @@ html
     script(src="../typeout.min.js")
     script.
       typeout('.typeout', ['wonderful', 'eye-opening', 'amazing', 'an experience'], {
+        numLoops: 3,
         callback: function(el) {
           console.log('calling the callback baby');
           el.innerHTML += ".";

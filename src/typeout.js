@@ -11,7 +11,7 @@
 "use strict";
 // TODO Take gif of it working and add it to readme
 
-var aq = require('aqueue');
+let aq = require('aqueue');
 
 /*
  *  Default options.
@@ -20,7 +20,7 @@ var defaults = {
   interval: 3000,
   completeClass: 'typeout-complete',
   callback : function noop() {},
-  numLoops: Infinity,
+  numLoops: 1,
   max: 110,
   min: 40
 };
@@ -32,6 +32,7 @@ var typeout = function(selector, words, options) {
   var el = document.querySelector(selector);
   var shouldStartType = true;
   var aqueue = aq();
+  let numLoops = 0;
 
   initialSetup();
 
@@ -49,16 +50,24 @@ var typeout = function(selector, words, options) {
 
   function startLoop() {
     var stop = false;
-    var loops = 0;
     var currentElIndex = 0;
     var listLength = options.words.length;
     var stopping = false;
 
     options.words.forEach(function(el, i) {
       aqueue(type, options.words[currentElIndex]);
+      console.log(options.words[currentElIndex], currentElIndex);
 
       if (currentElIndex === listLength - 1) {
-        aqueue(callback, null);
+        numLoops++;
+        console.log(options.numLoops, numLoops);
+        if (numLoops !== Infinity && numLoops === options.numLoops) {
+          return aqueue(callback, null);
+        }
+
+        // Inifinite loop -> wouldn't advise but possible
+        aqueue(pause, options.interval)(deleteWord);
+        return startLoop();
       } else {
         aqueue(pause, options.interval)(deleteWord);
       }
@@ -130,9 +139,9 @@ var typeout = function(selector, words, options) {
  *  the first
  */
 function merge(source, target) {
-  var obj = {};
+  let obj = {};
 
-  for (var key in source) {
+  for (let key in source) {
     if (source.hasOwnProperty(key)) {
       obj[key] = (typeof target[key] !== "undefined") ? target[key] : source[key];
     }

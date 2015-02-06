@@ -48,7 +48,11 @@ var defaults = {
   completeClass: 'typeout-complete',
   callback : function noop() {},
   max: 110, // upper limit for typing speed
-  min: 40   // lower limit for typing speed
+  min: 40,   // lower limit for typing speed
+  numLoops: 1 // number of loops before the callback is called
 };
 ```
+
+You can have an infinite loop passing numLoops as Infinity, but I wouldn't recommend it.
+Unless I add es6 generators at some point.
 

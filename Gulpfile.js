@@ -3,6 +3,7 @@ var plugins = require("gulp-load-plugins")();
 var stylish = require('jshint-stylish');
 var browserify = require('browserify');
 var transform = require('vinyl-transform');
+var to5 = require("gulp-6to5");
 
 var jsFileGlob = 'src/typeout.js';
 var jadeFileGlob = 'example/*.jade';
@@ -21,6 +22,7 @@ gulp.task('js:build', function() {
 
   return gulp.src(jsFileGlob)
     .pipe(browserified)
+    .pipe(to5())
     .pipe(plugins.uglify())
     .pipe(plugins.rename({suffix: '.min'}))
     .pipe(gulp.dest('./'));

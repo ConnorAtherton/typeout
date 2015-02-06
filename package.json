@@ -1,6 +1,6 @@
 {
   "name": "typeout",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Type and retype text in the browser.",
   "main": "typeout.min.js",
   "directories": {
@@ -31,6 +31,7 @@
     "gulp-rename": "^1.2.0"
   },
   "dependencies": {
-    "aqueue": "0.3.0"
+    "aqueue": "0.3.0",
+    "gulp-6to5": "^3.0.0"
   }
 }
