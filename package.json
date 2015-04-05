@@ -1,6 +1,6 @@
 {
   "name": "typeout",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Type and retype text in the browser.",
   "main": "typeout.min.js",
   "directories": {
